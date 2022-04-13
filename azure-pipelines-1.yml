@@ -19,12 +19,16 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-variables:
   solution: '**/*.sln'
+variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
+
+- checkout: self
+- checkout: ArmTemplateAppservice
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -48,3 +52,5 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+
