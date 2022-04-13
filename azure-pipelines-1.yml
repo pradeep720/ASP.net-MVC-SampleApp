@@ -19,11 +19,12 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-  solution: '$(Agent.BuildDirectory)/s/ASP.net-MVC-SampleApp/**/*.sln'
+  
 
 variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  solution: '$(Agent.BuildDirectory)/s/ASP.net-MVC-SampleApp/**/*.sln'
 
 steps:
 
@@ -41,7 +42,7 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    solution: '$(Agent.BuildDirectory)/s/ASP.net-MVC-SampleApp/**/*.sln'
+    solution: '$(solution)'
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
