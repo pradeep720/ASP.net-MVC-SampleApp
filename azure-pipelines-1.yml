@@ -19,6 +19,8 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
+
+
   
 
 variables:
@@ -26,40 +28,49 @@ variables:
   buildConfiguration: 'Release'
   solution: '$(Agent.BuildDirectory)/s/ASP.net-MVC-SampleApp/**/*.sln'
 
-steps:
+stages:
+- stage: Build
+  displayName: CI
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
 
-- checkout: self
-  displayName: 'Asp.net app'
+    steps:
 
-- checkout: ArmTemplateAppservice
-  displayName: 'arm template'
+    - checkout: self
+      displayName: 'Asp.net app'
 
-- task: NuGetToolInstaller@1
+    - checkout: ArmTemplateAppservice
+      displayName: 'arm template'
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+    - task: NuGetToolInstaller@1
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    - task: VSTest@2
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Agent.BuildDirectory)/s/ArmTemplateAppservice/Appservice-Arm-Templates/'
-    ArtifactName: 'drop-arm'
-    publishLocation: 'Container'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Agent.BuildDirectory)/s/ArmTemplateAppservice/Appservice-Arm-Templates/'
+        ArtifactName: 'drop-arm'
+        publishLocation: 'Container'
