@@ -103,8 +103,8 @@ stages:
           csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.json'
           csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.parameters.json'
           overrideParameters: |
-            - AppServiceName $(AppServiceName)
-            - AppserviceplanName $(AppServicePlanName)
+            -AppServiceName $(AppServiceName)
+            -AppserviceplanName $(AppServicePlanName)
           deploymentMode: 'Incremental'
 
       - task: AzureRmWebAppDeployment@4
