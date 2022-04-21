@@ -70,7 +70,9 @@ stages:
   variables:
       - group: 'deploy-dev' 
   displayName: CD to Dev
-  dependsOn: Build
+  dependsOn: 
+    - Build
+    - deploy_prod
   jobs:
   -  deployment: DeployDev
      displayName: deploy Dev App
@@ -148,7 +150,6 @@ stages:
   displayName: CD to Prod
   dependsOn: 
     - Build
-    - deploy_dev
   jobs:  
   -  deployment: DeployProd
      displayName: deploy Prod App
