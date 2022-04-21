@@ -96,7 +96,7 @@ stages:
           azureSubscription: 'devops team service connection'
           ScriptType: 'FilePath'
           ScriptPath: '$(System.DefaultWorkingDirectory)/drop-arm/AzureResourceGroup-Automation.ps1'
-          ScriptArguments: '-resourceGroupName pradeep-RG -location UKWest'
+          ScriptArguments: '-resourceGroupName pradeep-RG -location AustraliaCentral'
           azurePowerShellVersion: 'LatestVersion'
 
         
@@ -124,6 +124,7 @@ stages:
           subscriptionId: '23d9e783-b881-49e7-b2f1-a1a6f1bc2d90'
           action: 'Create Or Update Resource Group'
           resourceGroupName: 'pradeep-rg'
+          location: 'Australia Central'
           templateLocation: 'Linked artifact'
           deploymentMode: 'Incremental'
 
