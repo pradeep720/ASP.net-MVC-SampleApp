@@ -103,7 +103,7 @@ stages:
           csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.json'
           csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.parameters.json'
           overrideParameters: |
-            - AppserviceName $(AppServiceName)
+            - AppServiceName $(AppServiceName)
             - AppserviceplanName $(AppServicePlanName)
           deploymentMode: 'Incremental'
 
