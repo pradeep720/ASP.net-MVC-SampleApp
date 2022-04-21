@@ -98,7 +98,7 @@ stages:
           resourceGroupName: 'pradeep-rg'
           location: 'Australia Central'
           templateLocation: 'Linked artifact'
-          csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/webapp1.json'
-          csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/webapp1.parameters.json'
+          csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.json'
+          csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.parameters.json'
           deploymentMode: 'Incremental'
    
