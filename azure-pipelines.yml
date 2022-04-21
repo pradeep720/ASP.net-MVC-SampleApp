@@ -102,7 +102,9 @@ stages:
           templateLocation: 'Linked artifact'
           csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.json'
           csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.parameters.json'
-          overrideParameters: '- AppServiceName $(AppServiceName)'
+          overrideParameters: |
+            - AppserviceName $(AppServiceName)
+            - AppserviceplanName $(AppServicePlanName)
           deploymentMode: 'Incremental'
 
       - task: AzureRmWebAppDeployment@4
