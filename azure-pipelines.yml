@@ -91,6 +91,23 @@ stages:
           artifactName: 'drop-arm'
           downloadPath: '$(System.DefaultWorkingDirectory)'
       
+      - task: replacetokens@5
+        inputs:
+          rootDirectory: '$(System.DefaultWorkingDirectory)/drop-arm'
+          targetFiles: 'TestArm.parameters.json'
+          encoding: 'auto'
+          tokenPattern: 'custom'
+          tokenPrefix: '#'
+          tokenSuffix: '#'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          keepToken: false
+          actionOnNoFiles: 'continue'
+          enableTransforms: false
+          enableRecursion: false
+          useLegacyPattern: false
+          enableTelemetry: true
+
       - task: AzureResourceManagerTemplateDeployment@3
         inputs:
           deploymentScope: 'Resource Group'
@@ -102,9 +119,6 @@ stages:
           templateLocation: 'Linked artifact'
           csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.json'
           csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.parameters.json'
-          overrideParameters: |
-            '-AppserviceName $(AppServiceName)' 
-            '-AppserviceplanName $(AppServicePlanName)' 
           deploymentMode: 'Incremental'
 
       - task: AzureRmWebAppDeployment@4
