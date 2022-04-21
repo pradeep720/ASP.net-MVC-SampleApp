@@ -146,7 +146,9 @@ stages:
   variables:
       - group: 'deploy-prod' 
   displayName: CD to Prod
-  dependsOn: Build
+  dependsOn: 
+    - Build
+    - deploy_dev
   jobs:  
   -  deployment: DeployProd
      displayName: deploy Prod App
