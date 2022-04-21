@@ -113,13 +113,8 @@ stages:
           deploymentScope: 'Resource Group'
           azureResourceManagerConnection: 'devops team service connection'
           subscriptionId: '23d9e783-b881-49e7-b2f1-a1a6f1bc2d90'
-          action: 'Create Or Update Resource Group'
+          action: 'DeleteRG'
           resourceGroupName: 'pradeep-rg'
-          location: 'Australia Central'
-          templateLocation: 'Linked artifact'
-          csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.json'
-          csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.parameters.json'
-          deploymentMode: 'Incremental'
 
       - task: AzureRmWebAppDeployment@4
         inputs:
