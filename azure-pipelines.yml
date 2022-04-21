@@ -56,7 +56,7 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
+        ArtifactName: 'drop-$(Build.BuildId)'
         publishLocation: 'Container'
 
     - task: PublishBuildArtifacts@1
@@ -64,3 +64,41 @@ stages:
         PathtoPublish: '$(Agent.BuildDirectory)/s/ArmTemplateAppservice/Appservice-Arm-Templates/'
         ArtifactName: 'drop-arm'
         publishLocation: 'Container'
+
+
+- stage: deploy
+  displayName: CD to Dev
+  dependsOn: Build
+  jobs:
+  - job: deploy
+    displayName: deploy to app service
+    pool:
+      vmImage: windows-latest
+    
+    steps:
+      - task: DownloadBuildArtifacts@1
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop-$(Build.BuildId)'
+          downloadPath: '$(System.DefaultWorkingDirectory)'
+      - task: DownloadBuildArtifacts@1
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop-arm'
+          downloadPath: '$(System.DefaultWorkingDirectory)'
+      
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: 'devops team service connection'
+          subscriptionId: '23d9e783-b881-49e7-b2f1-a1a6f1bc2d90'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: 'pradeep-rg'
+          location: 'Australia Central'
+          templateLocation: 'Linked artifact'
+          csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/webapp1.json'
+          csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/webapp1.parameters.json'
+          deploymentMode: 'Incremental'
+   
