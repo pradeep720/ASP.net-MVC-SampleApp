@@ -26,7 +26,7 @@ stages:
 
             
 
-  - stage: deploy_dev
+  - stage: deploydev
     jobs: 
       - template: deploy.yaml
         parameters:
@@ -37,7 +37,7 @@ stages:
           AppserviceplanName: $(AppServicePlanNameAll) 
           deployment: Deployweb
 
-  - stage: deploy_prod
+  - stage: deployprod
     jobs: 
       - template: deploy.yaml
         parameters:
