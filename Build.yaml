@@ -3,24 +3,13 @@
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
-resources:
-  repositories:
-  - repository: ArmTemplateAppservice # The name used to reference this repository in the checkout step
-    type: github
-    endpoint: pradeep720
-    name: pradeep720/ArmTemplateAppservice
-    trigger:
-    - master
-
-trigger:
-- none
-
 
 jobs:
   - job: Build
     displayName: Build
     pool:
       vmImage: windows-latest
+
     variables:
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
