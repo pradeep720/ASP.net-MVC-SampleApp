@@ -31,8 +31,8 @@ stages:
       - template: deploy.yaml
         parameters:
           environment: 'dev'
-          resourceGroupName: pradeep-dev
-          location: AustraliaCentral
+          resourceGroupName: 'pradeep-dev'
+          location: 'AustraliaCentral'
           AppserviceName: $(AppServiceNameDev)
           AppserviceplanName: $(AppServicePlanNameAll) 
          
@@ -42,8 +42,8 @@ stages:
       - template: deploy.yaml
         parameters:
           environment: 'prod'
-          resourceGroupName: pradeep-prod
-          location: AustraliaCentral
+          resourceGroupName: 'pradeep-prod'
+          location: 'AustraliaCentral'
           AppserviceName: $(AppServiceNameProd) 
           AppserviceplanName: $(AppServicePlanNameAll) 
                
