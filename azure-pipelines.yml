@@ -73,7 +73,6 @@ stages:
   displayName: CD to Dev
   dependsOn: 
     - Build
-    - deploy_prod
   jobs:
   -  deployment: DeployDev
      displayName: deploy Dev App
@@ -144,12 +143,12 @@ stages:
                 packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
   
 - stage: deploy_prod
-  condition: false
   variables:
       - group: 'deploy-prod' 
   displayName: CD to Prod
   dependsOn: 
     - Build
+    - deploy_dev
   jobs:  
   -  deployment: DeployProd
      displayName: deploy Prod App
