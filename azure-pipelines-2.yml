@@ -140,5 +140,5 @@ stages:
                 ConnectionType: 'AzureRM'
                 azureSubscription: 'devops team service connection'
                 appType: 'webApp'
-                WebAppName: '$(AppServicName)'
+                WebAppName: '$(AppServiceName)'
                 packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
