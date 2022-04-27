@@ -17,8 +17,19 @@ stages:
   - stage: Build
     jobs:
       - template: Build.yaml
+        parameters:
+          buildPlatform: 'Any CPU'
+          buildConfiguration: 'Release'
+          vmImage: $(vmImage)
+            
 
   - stage: deploy
     jobs: 
       - template: deploy.yaml
-        
+        parameters:
+          vmImage: windows-latest
+          environment: 'dev'
+          resourceGroupName: pradeep-RG
+          location: AustraliaCentral
+          AppserviceName: $(AppServiceName)
+          AppserviceplanName: $(AppServicePlanName)
