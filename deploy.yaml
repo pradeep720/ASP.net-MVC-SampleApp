@@ -20,12 +20,7 @@ parameters:
 
 jobs:
   -  deployment:  deploy
-     displayName: deploy App
-     variables:
-     -  name: AppServiceName 
-        value: grep version ${{ parameters.AppserviceName }}/package.json | awk -F \" '{print $4}'  
-
-
+     displayName: deploy App 
     # pool:
     #   vmImage: ${{ parameters.vmImage }}
      environment: ${{ parameters.environment }}
@@ -73,5 +68,5 @@ jobs:
                 ConnectionType: 'AzureRM'
                 azureSubscription: 'devops team service connection'
                 appType: 'webApp'
-                WebAppName: $(AppServiceName)
+                WebAppName: '${{ parameters.AppserviceName }}'
                 packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
