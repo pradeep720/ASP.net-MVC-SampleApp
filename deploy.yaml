@@ -5,7 +5,6 @@ jobs:
        vmImage: windows-latest
      environment: 'dev'
      strategy:
-    # default deployment strategy, more coming...
       runOnce:
         deploy:
           steps:
