@@ -1,5 +1,5 @@
 parameters:
-    vmImage: windows-latest
+  #  vmImage: windows-latest
     environment: 'dev'
     resourceGroupName: 'pradeep-RG'
     location: 'AustraliaCentral'
@@ -9,8 +9,8 @@ parameters:
 jobs:
   -  deployment: DeployDev
      displayName: deploy Dev App
-     pool:
-       vmImage: ${{ parameters.vmImage }}
+    # pool:
+    #   vmImage: ${{ parameters.vmImage }}
      environment: ${{ parameters.environment }}
      strategy:
       runOnce:
