@@ -3,16 +3,20 @@
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
+parameters:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  vmImage: windows-latest
+
+
 
 jobs:
   - job: Build
     displayName: Build
     pool:
-      vmImage: windows-latest
+      vmImage: ${{parameters.vmImage}}
 
     variables:
-      buildPlatform: 'Any CPU'
-      buildConfiguration: 'Release'
       solution: '$(Agent.BuildDirectory)/s/ASP.net-MVC-SampleApp/**/*.sln'
     steps:
 
@@ -33,12 +37,12 @@ jobs:
         solution: '$(solution)'
         msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
         platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
+        configuration: '${{parameters.buildConfiguration}}'
 
     - task: VSTest@2
       inputs:
         platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
+        configuration: '${{parameters.buildConfiguration}}'
 
     - task: PublishBuildArtifacts@1
       inputs:
