@@ -83,6 +83,18 @@ stages:
       runOnce:
         deploy:
           steps:
+            - task: DownloadBuildArtifacts@1
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'drop-$(Build.BuildId)'
+                downloadPath: '$(System.DefaultWorkingDirectory)'
+            - task: DownloadBuildArtifacts@1
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'drop-arm'
+                downloadPath: '$(System.DefaultWorkingDirectory)'
             
             - task: AzurePowerShell@5
               inputs:
