@@ -1,3 +1,13 @@
+
+resources:
+  repositories:
+  - repository: ArmTemplateAppservice # The name used to reference this repository in the checkout step
+    type: github
+    endpoint: pradeep720
+    name: pradeep720/ArmTemplateAppservice
+    trigger:
+    - master
+
 trigger: none
 
 variables: 
