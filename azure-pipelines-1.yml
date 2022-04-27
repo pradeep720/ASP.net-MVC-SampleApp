@@ -34,7 +34,8 @@ stages:
           resourceGroupName: pradeep-dev
           location: AustraliaCentral
           AppserviceName: $(AppServiceNameDev)
-          AppserviceplanName: $(AppServicePlanNameAll)
+          AppserviceplanName: $(AppServicePlanNameAll) 
+          deployment: Deployweb
 
   - stage: deploy_prod
     jobs: 
@@ -44,4 +45,5 @@ stages:
           resourceGroupName: pradeep-prod
           location: AustraliaCentral
           AppserviceName: $(AppServiceNameProd) 
-          AppserviceplanName: $(AppServicePlanNameAll)        
+          AppserviceplanName: $(AppServicePlanNameAll) 
+          deployment: Deployprod       

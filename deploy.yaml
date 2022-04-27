@@ -10,10 +10,12 @@ parameters:
   default: '' 
 - name: AppserviceplanName
   default: '' 
+- name: deployment
+  default: ''
 
 jobs:
-  -  deployment: DeployDev
-     displayName: deploy Dev App
+  -  deployment: $ {{ parameters.deployment }}
+     displayName: deploy App
     # pool:
     #   vmImage: ${{ parameters.vmImage }}
      environment: ${{ parameters.environment }}
