@@ -27,7 +27,7 @@ stages:
     jobs: 
       - template: deploy.yaml
         parameters:
-          vmImage: windows-latest
+          vmImage: $(vmImage)
           environment: 'dev'
           resourceGroupName: pradeep-RG
           location: AustraliaCentral
