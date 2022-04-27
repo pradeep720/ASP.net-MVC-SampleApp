@@ -5,11 +5,11 @@
 
 parameters:
 - name: buildPlatform
-  default: 'Any CPU'
+  default: ''
   type: string
   
 - name: buildConfiguration
-  default: 'Release'
+  default: ''
   type: string
 
 
