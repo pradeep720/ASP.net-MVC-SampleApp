@@ -1,15 +1,21 @@
+
+
 parameters:
-  #  vmImage: windows-latest
 - name: environment
   default: ''
+  type: string
 - name: resourceGroupName
   default: ''
+  type: string
 - name: location
   default: ''
+  type: string
 - name: AppserviceName
   default: '' 
+  type: string
 - name: AppserviceplanName
   default: '' 
+  type: string
 
 
 jobs:

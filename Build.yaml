@@ -4,8 +4,13 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 parameters:
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+- name: buildPlatform
+  value: 'Any CPU'
+  type: string
+  
+- name: buildConfiguration
+  value: 'Release'
+  type: string
 
 
 
