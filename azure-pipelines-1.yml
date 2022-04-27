@@ -35,7 +35,7 @@ stages:
           location: AustraliaCentral
           AppserviceName: $(AppServiceNameDev)
           AppserviceplanName: $(AppServicePlanNameAll) 
-          deployment: Deployweb
+         
 
   - stage: deployprod
     jobs: 
@@ -46,4 +46,4 @@ stages:
           location: AustraliaCentral
           AppserviceName: $(AppServiceNameProd) 
           AppserviceplanName: $(AppServicePlanNameAll) 
-          deployment: Deployprod       
+               
