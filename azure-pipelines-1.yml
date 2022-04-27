@@ -10,6 +10,9 @@ resources:
 
 trigger: none
 
+pool:
+ vmImage: windows-latest
+
 variables: 
 - group:  'deploy-dev'
 
@@ -20,14 +23,13 @@ stages:
         parameters:
           buildPlatform: 'Any CPU'
           buildConfiguration: 'Release'
-          vmImage: $(vmImage)
+
             
 
   - stage: deploy
     jobs: 
       - template: deploy.yaml
         parameters:
-          vmImage: '$(vmImage)'
           environment: 'dev'
           resourceGroupName: pradeep-RG
           location: AustraliaCentral
