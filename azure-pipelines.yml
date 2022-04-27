@@ -15,14 +15,15 @@ resources:
 trigger:
 - none
 
+pool:
+  vmImage: windows-latest
+
 stages:
 - stage: Build
   displayName: CI
   jobs:
   - job: Build
     displayName: Build
-    pool:
-      vmImage: windows-latest
     variables:
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
@@ -76,8 +77,6 @@ stages:
   jobs:
   -  deployment: DeployDev
      displayName: deploy Dev App
-     pool:
-       vmImage: windows-latest
      environment: 'dev'
      strategy:
     # default deployment strategy, more coming...
@@ -154,8 +153,6 @@ stages:
   jobs:  
   -  deployment: DeployProd
      displayName: deploy Prod App
-     pool:
-       vmImage: windows-latest
      environment: 'prod'
      strategy:
     # default deployment strategy, more coming...
