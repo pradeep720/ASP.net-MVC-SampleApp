@@ -1,0 +1,132 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+resources:
+  repositories:
+  - repository: ArmTemplateAppservice # The name used to reference this repository in the checkout step
+    type: github
+    endpoint: pradeep720
+    name: pradeep720/ArmTemplateAppservice
+    trigger:
+    - master
+
+trigger:
+- none
+
+stages:
+- stage: Build
+  displayName: CI
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: windows-latest
+    variables:
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+      solution: '$(Agent.BuildDirectory)/s/ASP.net-MVC-SampleApp/**/*.sln'
+    steps:
+
+    - checkout: self
+      displayName: 'Asp.net app'
+
+    - checkout: ArmTemplateAppservice
+      displayName: 'arm template'
+
+    - task: NuGetToolInstaller@1
+
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
+
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+    - task: VSTest@2
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop-$(Build.BuildId)'
+        publishLocation: 'Container'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Agent.BuildDirectory)/s/ArmTemplateAppservice/Appservice-Arm-Templates/'
+        ArtifactName: 'drop-arm'
+        publishLocation: 'Container'
+
+
+- stage: deploy_dev
+  variables:
+      - group: 'deploy-dev' 
+  displayName: CD to Dev
+  dependsOn: 
+    - Build
+  jobs:
+  -  deployment: DeployDev
+     displayName: deploy Dev App
+     pool:
+       vmImage: windows-latest
+     environment: 'dev'
+     strategy:
+    # default deployment strategy, more coming...
+      runOnce:
+        deploy:
+          steps:
+            
+            - task: AzurePowerShell@5
+              inputs:
+                azureSubscription: 'devops team service connection'
+                ScriptType: 'FilePath'
+                ScriptPath: '$(System.DefaultWorkingDirectory)/drop-arm/AzureResourceGroup-Automation.ps1'
+                ScriptArguments: '-resourceGroupName pradeep-RG -location AustraliaCentral'
+                azurePowerShellVersion: 'LatestVersion'
+
+              
+            - task: replacetokens@5
+              inputs:
+                rootDirectory: '$(System.DefaultWorkingDirectory)/drop-arm'
+                targetFiles: 'TestArm.parameters.json'
+                encoding: 'auto'
+                tokenPattern: 'custom'
+                tokenPrefix: '#'
+                tokenSuffix: '#'
+                writeBOM: true
+                actionOnMissing: 'warn'
+                keepToken: false
+                actionOnNoFiles: 'continue'
+                enableTransforms: false
+                enableRecursion: false
+                useLegacyPattern: false
+                enableTelemetry: true
+
+            - task: AzureResourceManagerTemplateDeployment@3
+              inputs:
+                deploymentScope: 'Resource Group'
+                azureResourceManagerConnection: 'devops team service connection'
+                subscriptionId: '23d9e783-b881-49e7-b2f1-a1a6f1bc2d90'
+                action: 'Create Or Update Resource Group'
+                resourceGroupName: 'pradeep-rg'
+                location: 'Australia Central'
+                templateLocation: 'Linked artifact'
+                csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.json'
+                csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.parameters.json'
+                deploymentMode: 'Incremental'
+
+            - task: AzureRmWebAppDeployment@4
+              inputs:
+                ConnectionType: 'AzureRM'
+                azureSubscription: 'devops team service connection'
+                appType: 'webApp'
+                WebAppName: '$(AppServicName)'
+                packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
