@@ -1,9 +1,17 @@
+parameters:
+  vmImage: 'windows-latest'
+  environment: 'dev'
+  resourceGroupName: 'pradeep-RG'
+  location: 'AustraliaCentral'
+  AppserviceName: 'coolweb1' 
+  AppserviceplanName: 'myappserviceplan1' 
+
 jobs:
   -  deployment: DeployDev
      displayName: deploy Dev App
      pool:
-       vmImage: windows-latest
-     environment: 'dev'
+       vmImage: ${{ parameters.vmImage }}
+     environment: ${{ parameters.environment }}
      strategy:
       runOnce:
         deploy:
@@ -26,7 +34,7 @@ jobs:
                 azureSubscription: 'devops team service connection'
                 ScriptType: 'FilePath'
                 ScriptPath: '$(System.DefaultWorkingDirectory)/drop-arm/AzureResourceGroup-Automation.ps1'
-                ScriptArguments: '-resourceGroupName pradeep-RG -location AustraliaCentral'
+                ScriptArguments: '-resourceGroupName  ${{ parameters.resourceGroupName}} -location ${{ parameters.location }}'
                 azurePowerShellVersion: 'LatestVersion'
 
             - task: AzureResourceManagerTemplateDeployment@3
@@ -35,12 +43,12 @@ jobs:
                 azureResourceManagerConnection: 'devops team service connection'
                 subscriptionId: '23d9e783-b881-49e7-b2f1-a1a6f1bc2d90'
                 action: 'Create Or Update Resource Group'
-                resourceGroupName: 'pradeep-rg'
-                location: 'Australia Central'
+                resourceGroupName: '${{ parameters.resourceGroupName}}'
+                location: '${{ parameters.location }}'
                 templateLocation: 'Linked artifact'
                 csmFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.json'
                 csmParametersFile: '$(System.DefaultWorkingDirectory)/drop-arm/TestArm.parameters.json'
-                overrideParameters: '-AppserviceName $(AppServiceName) -AppserviceplanName $(AppServicePlanName)'
+                overrideParameters: '-AppserviceName ${{ parameters.AppserviceName }} -AppserviceplanName ${{ parameters.AppserviceplanName }}'
                 deploymentMode: 'Incremental'
 
             - task: AzureRmWebAppDeployment@4
@@ -48,5 +56,5 @@ jobs:
                 ConnectionType: 'AzureRM'
                 azureSubscription: 'devops team service connection'
                 appType: 'webApp'
-                WebAppName: '$(AppServiceName)'
+                WebAppName: '${{ parameters.AppserviceName }}'
                 packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
