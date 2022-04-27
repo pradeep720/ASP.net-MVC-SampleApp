@@ -6,15 +6,14 @@
 parameters:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  vmImage: windows-latest
 
 
 
 jobs:
   - job: Build
     displayName: Build
-    pool:
-      vmImage: ${{parameters.vmImage}}
+   # pool:
+   #   vmImage: ${{parameters.vmImage}}
 
     variables:
       solution: '$(Agent.BuildDirectory)/s/ASP.net-MVC-SampleApp/**/*.sln'
