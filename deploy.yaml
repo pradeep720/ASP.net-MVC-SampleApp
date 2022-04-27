@@ -1,10 +1,10 @@
 parameters:
-  vmImage: 'windows-latest'
-  environment: 'dev'
-  resourceGroupName: 'pradeep-RG'
-  location: 'AustraliaCentral'
-  AppserviceName: 'coolweb1' 
-  AppserviceplanName: 'myappserviceplan1' 
+    vmImage: windows-latest
+    environment: 'dev'
+    resourceGroupName: 'pradeep-RG'
+    location: 'AustraliaCentral'
+    AppserviceName: 'coolweb1' 
+    AppserviceplanName: 'myappserviceplan1' 
 
 jobs:
   -  deployment: DeployDev
