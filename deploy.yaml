@@ -1,4 +1,4 @@
-  jobs:
+jobs:
   -  deployment: DeployDev
      displayName: deploy Dev App
      pool:
