@@ -23,8 +23,6 @@ jobs:
      displayName: deploy App
     # pool:
     #   vmImage: ${{ parameters.vmImage }}
-     variables:
-       AppserviceName: ${{ parameters.AppserviceName }}
      environment: ${{ parameters.environment }}
      strategy:
       runOnce:
@@ -70,5 +68,5 @@ jobs:
                 ConnectionType: 'AzureRM'
                 azureSubscription: 'devops team service connection'
                 appType: 'webApp'
-                WebAppName: $(AppserviceName)
+                WebAppName: '$(parameters.AppserviceName)'
                 packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
