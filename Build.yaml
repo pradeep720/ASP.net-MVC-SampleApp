@@ -1,7 +1,6 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+parameters:
+  - ArtifactName-web: 'drop-$(Build.BuildId)'
+  - ArtifactName-arm: 'drop-arm'
 
 resources:
   repositories:
@@ -54,13 +53,13 @@ jobs:
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop-$(Build.BuildId)'
+        ArtifactName: '${{ parameters.ArtifactName-web}}'
         publishLocation: 'Container'
 
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Agent.BuildDirectory)/s/ArmTemplateAppservice/Appservice-Arm-Templates/'
-        ArtifactName: 'drop-arm'
+        ArtifactName: '${{ parameters.ArtifactName-arm}}'
         publishLocation: 'Container'
 
 
