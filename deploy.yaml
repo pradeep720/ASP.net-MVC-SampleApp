@@ -23,6 +23,8 @@ jobs:
      displayName: deploy App
     # pool:
     #   vmImage: ${{ parameters.vmImage }}
+     variables:
+       AppserviceName: ${{ parameters.AppserviceName } }
      environment: ${{ parameters.environment }}
      strategy:
       runOnce:
