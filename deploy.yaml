@@ -64,10 +64,10 @@ jobs:
                 deploymentMode: 'Incremental'
 
 
-            # - task: AzureRmWebAppDeployment@4
-            #   inputs:
-            #     ConnectionType: 'AzureRM'
-            #     azureSubscription: 'devops team service connection'
-            #     appType: 'webApp'
-            #     WebAppName: $(AppServiceNameDev)
-            #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip' 
+            - task: AzureRmWebAppDeployment@4
+              inputs:
+                ConnectionType: 'AzureRM'
+                azureSubscription: 'devops team service connection'
+                appType: 'webApp'
+                WebAppName: '${{ parameters.AppserviceName }}'
+                packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip' 
