@@ -37,13 +37,4 @@ stages:
           AppserviceplanName: $(AppServicePlanNameAll) 
          
 
-  - stage: deployprod
-    jobs: 
-      - template: deploy.yaml
-        parameters:
-          environment: 'prod'
-          resourceGroupName: 'pradeep-prod'
-          location: 'AustraliaCentral'
-          AppserviceName: $(AppServiceNameProd) 
-          AppserviceplanName: $(AppServicePlanNameAll) 
                
