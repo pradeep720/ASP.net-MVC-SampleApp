@@ -63,10 +63,11 @@ jobs:
                 overrideParameters: '-AppserviceName ${{ parameters.AppserviceName }} -AppserviceplanName ${{ parameters.AppserviceplanName }}'
                 deploymentMode: 'Incremental'
 
-            - task: AzureRmWebAppDeployment@4
-              inputs:
-                ConnectionType: 'AzureRM'
-                azureSubscription: 'devops team service connection'
-                appType: 'webApp'
-                WebAppName: $(AppServiceNameDev)
-                packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+
+            # - task: AzureRmWebAppDeployment@4
+            #   inputs:
+            #     ConnectionType: 'AzureRM'
+            #     azureSubscription: 'devops team service connection'
+            #     appType: 'webApp'
+            #     WebAppName: $(AppServiceNameDev)
+            #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip' 
