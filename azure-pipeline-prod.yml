@@ -1,0 +1,38 @@
+
+resources:
+  repositories:
+  - repository: ArmTemplateAppservice # The name used to reference this repository in the checkout step
+    type: github
+    endpoint: pradeep720
+    name: pradeep720/ArmTemplateAppservice
+    trigger:
+    - master
+
+trigger: none
+
+pool:
+ vmImage: windows-latest
+
+variables: 
+- group:  'deploy-dev'
+
+stages:
+  - stage: Build
+    jobs:
+      - template: Build.yaml
+        parameters:
+          buildPlatform: 'Any CPU'
+          buildConfiguration: 'Release'
+
+            
+
+  - stage: deployprod
+    jobs: 
+      - template: deploy.yaml
+        parameters:
+          environment: 'prod'
+          resourceGroupName: 'pradeep-prod'
+          location: 'AustraliaCentral'
+          AppserviceName: $(AppServiceNameProd) 
+          AppserviceplanName: $(AppServicePlanNameAll) 
+               
