@@ -68,5 +68,5 @@ jobs:
                 ConnectionType: 'AzureRM'
                 azureSubscription: 'devops team service connection'
                 appType: 'webApp'
-                WebAppName: '$(Parameters.AppserviceName)'
+                WebAppName: $(AppServiceNameDev)
                 packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
